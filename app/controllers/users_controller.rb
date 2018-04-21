@@ -1,6 +1,7 @@
 module V1
   class UsersController < ApplicationController
     before_action :set_user, only: [:show, :destroy, :update]
+    before_create :generate_api_key
 
     def index
       users = User.preload(:book_copies).paginate(page: params[:page])
@@ -34,6 +35,13 @@ module V1
     end
 
     private
+
+    def generate_api_key
+      loop do
+        self.api_key = SecureRandom.base64(30)
+        break unless User.exists?(api_key: self.api_key)
+      end
+    end
 
     def set_user
       @user = User.find(params[:id])
