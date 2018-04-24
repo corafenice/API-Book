@@ -8,5 +8,22 @@ class BookCopy < ApplicationRecord
   PAPERBACK = 2
   EBOOK = 3
 
-    enum format: { hardback: HARDBACK, paperback: PAPERBACK, ebook: EBOOK }
+  enum format: { hardback: HARDBACK, paperback: PAPERBACK, ebook: EBOOK
+    def borrow(borrower)
+      return false if user.present?
+
+      self.user = borrower
+      save
+    end
+
+    def return_book(borrower)
+      return false unless user.present?
+
+      self.user = nil
+      save
+    end
+  end
+
+
+
 end
