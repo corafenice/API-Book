@@ -9,6 +9,7 @@ class BookCopy < ApplicationRecord
   EBOOK = 3
 
   enum format: { hardback: HARDBACK, paperback: PAPERBACK, ebook: EBOOK
+
     def borrow(borrower)
       return false if user.present?
 
@@ -23,7 +24,4 @@ class BookCopy < ApplicationRecord
       save
     end
   end
-
-
-
 end
